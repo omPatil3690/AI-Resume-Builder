@@ -155,7 +155,7 @@ export const dummyResumeData = [
                 description: "ShopEase is a modular e-commerce frontend template with ready-to-use components for product listing, cart management, and responsive navigation.",
                 _id: "78e3b42c2d5ff49286cc1495"
             }
-        ],
+        ], 
         updatedAt: "2025-09-25T15:10:21.184Z",
         createdAt: "2025-09-25T15:10:21.184Z"
     },

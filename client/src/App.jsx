@@ -7,18 +7,18 @@ import Preview from './pages/Preview'
 import ResumeBuilder from './pages/Resumebuilder'
 import Layout from './pages/Layout.jsx'
 
-const App = ()=>{
+const App = () => {
   return (
     <>
       <Routes>
-      <Route path='/' element={<Home/>}/>
-      <Route path='app' element={<Layout/>}>
-        <Route index element={<Dashboard/>}/>
-        <Route path="builder/:resumeID" element={<ResumeBuilder/>}/>
-      </Route>
+        <Route path='/' element={<Home />} />
+        <Route path='app' element={<Layout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="builder/:resumeId" element={<ResumeBuilder />} />
+        </Route>
 
-      <Route path='view/:resumeID' element={<Preview/>}/>
-      <Route path='login' element={<Login/>}/>
+        <Route path='view/:resumeId' element={<Preview />} />
+        <Route path='login' element={<Login />} />
 
       </Routes>
     </>

@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { dummyResumeData } from '../assets/assets';
 import { ArrowLeftIcon, Briefcase, FileText, FolderIcon, GraduationCap, Sparkles, User, ChevronLeft, ChevronRight } from 'lucide-react';
 import PersonalInfoForm from '../components/PersonalInfoForm';
+import ResumePreview from '../components/ResumePreview';
+import TemplateSelector from '../components/TemplateSelector';
 
 const ResumeBuilder = () => {
 
@@ -22,13 +24,20 @@ const ResumeBuilder = () => {
         public: false,
     })
 
-    const loadExistingResume = () => {
+    const loadExistingResume = useCallback(() => {
+        console.log('Looking for resumeId:', resumeId)
+        console.log('Available resume IDs:', dummyResumeData.map(r => r._id))
+
         const resume = dummyResumeData.find(resume => resume._id === resumeId)
+        console.log('Found resume:', resume)
+
         if (resume) {
             setResumeData(resume)
             document.title = resume.title
+        } else {
+            console.warn('No resume found with ID:', resumeId)
         }
-    }
+    }, [resumeId])
 
     const [activeSectionIndex, setActiveSectionIndex] = useState(0)
     const [removeBackground, setRemoveBackground] = useState(false)
@@ -43,9 +52,11 @@ const ResumeBuilder = () => {
         { id: "skills", name: "Skills", icon: Sparkles },
     ]
     const activeSection = sections[activeSectionIndex]
+
     useEffect(() => {
+        console.log('useEffect triggered with resumeId:', resumeId)
         loadExistingResume()
-    }, [resumeId])
+    }, [resumeId, loadExistingResume])
 
 
     return (
@@ -77,7 +88,9 @@ const ResumeBuilder = () => {
 
                             {/* Section Navigation */}
                             <div className="flex justify-between items-center mb-6 border-b border-gray-300 py-1">
-                                <div></div>
+                                <div className='flex items-center gap-2'>
+                                    <TemplateSelector selectedTemplate={resumeData.template} onChange={(template)=>setResumeData(prev=>({...prev, template}))}/>
+                                </div>
 
                                 <div className="flex items-center">
                                     {activeSectionIndex !== 0 && (
@@ -126,9 +139,18 @@ const ResumeBuilder = () => {
                                 )}
                             </div>
 
-
                         </div>
                     </div>
+
+                    {/* Right Panel -Preview */}
+                    <div className='lg:col-span-7 max-lg:mt-6'>
+                        <div>
+                            {/* ---Buttons--- */}
+                        </div>
+                        <ResumePreview data={resumeData} template={resumeData.template} accentColor={resumeData.accent_color} />
+
+                    </div>
+
                 </div>
             </div>
         </div>
