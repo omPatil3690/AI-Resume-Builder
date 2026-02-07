@@ -3,6 +3,9 @@ import cors from "cors";
 import "dotenv/config";
 import connectDB from "./configs/db.js";
 import resumeRouter from "./routes/resumeRoutes.js";
+import userRouter from "./routes/userRoutes.js";
+import aiRouter from "./routes/aiRoutes.js";
+
 
 
 const app = express();

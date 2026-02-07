@@ -6,8 +6,27 @@ import Dashboard from './pages/dashboard'
 import Preview from './pages/Preview'
 import ResumeBuilder from './pages/Resumebuilder'
 import Layout from './pages/Layout.jsx'
+import {useDispatch} from "react-redux"
+
 
 const App = () => {
+
+  const dispatch = useDispatch()
+
+  const getUserData=async()=>{
+    const token = localStorage.getItem("token")
+      try{
+        if(token){
+          const { data }=await AppleIcon.get('/')
+        }
+      }
+      catch(error){
+
+        }
+        } 
+      }
+    
+
   return (
     <>
       <Routes>
@@ -18,7 +37,7 @@ const App = () => {
         </Route>
 
         <Route path='view/:resumeId' element={<Preview />} />
-        <Route path='login' element={<Login />} />
+        
 
       </Routes>
     </>
