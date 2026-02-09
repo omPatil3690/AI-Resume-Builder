@@ -7,6 +7,8 @@ import {
   PencilIcon,
   XIcon,
   UploadCloud,
+  LoaderCircleIcon,
+  InspectionPanel,
 } from "lucide-react";
 
 import { dummyResumeData } from "../assets/assets";
@@ -70,19 +72,64 @@ const Dashboard = () => {
   };
 
   const editTitle = async (event) => {
-    e.preventDefault();
+    try {
+      event.preventDefault();
+      const { data } = await api.put(
+        `/api/resumes/update/`,
+        { resumeId: editResumeId, resumeData: { title } },
+        {
+          headers: {
+            Authorisation: token,
+          },
+        },
+      );
+      setAllResumes(
+        allResumes.map((resume) =>
+          resume._id === editResumeId ? { ...resume, title } : resume,
+        ),
+      );
+      setTitle("");
+      setEditResumeId("");
+      toast.success(data.message);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || error.message);
+    }
   };
 
   const deleteResume = async (resumeId) => {
-    const confirm = window.confirm(
-      "Are you sure you want to delete this resume?",
-    );
-    if (confirm) {
-      setAllResumes((prev) => prev.filter((resume) => resume._id !== resumeId));
+    try {
+      const confirm = window.confirm(
+        "Are you sure you want to delete this resume?",
+      );
+      if (confirm) {
+        const { data } = await api.delete(
+          `/api/resumes/delete/${resumeId}`,
+          { title, resumeText },
+          {
+            headers: {
+              Authorisation: token,
+            },
+          },
+        );
+
+        setAllResumes(allResumes.filter((resume) => resume._id !== resumeId));
+
+        toast.success(data.message);
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || error.message);
     }
   };
+
   const loadAllResumes = async () => {
-    setAllResumes(dummyResumeData);
+    try {
+      const { data } = await api.get("/api/users/resumes", {
+        headers: { Authorization: token },
+      });
+      setAllResumes(data.resumes);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || error.message);
+    }
   };
 
   useEffect(() => {
@@ -254,7 +301,14 @@ const Dashboard = () => {
                 hidden
                 onChange={(e) => setResume(e.target.files[0])}
               />
-              <button className="w-full py-2 bg-orange-600 text-white rounded hover:bg-orange-700 transition-colors">
+              <button
+                disabled={isLoading}
+                className="w-full py-2 bg-orange-600 text-white rounded hover:bg-orange-700 transition-colors flex items-center justify-center gap-2"
+              >
+                {isLoading && (
+                  <LoaderCircleIcon className="animate-spin size-4 text-white" />
+                )}
+                {isLoading ? "Uploading..." : "Upload Resume"}
                 Upload Resume
               </button>
 
