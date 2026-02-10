@@ -6,7 +6,7 @@ const userRouter = express.Router();
 
 userRouter.post('/register',registerUser);
 userRouter.post('/login', loginUser)
-userRouter.get('data',protect,getUserById);
+userRouter.get('/data',protect,getUserById);
 userRouter.get('/resumes', protect, getUserResumes)
 
 

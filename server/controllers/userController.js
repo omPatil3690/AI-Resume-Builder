@@ -71,7 +71,7 @@ export const loginUser = async (req, res) => {
 
     // return success message
     const token = generateToken(user._id);
-    // user.password = undefined;
+    user.password = undefined;
 
     return res.status(200).json({ message: "Login successful", token, user });
   } catch (error) {
@@ -107,10 +107,8 @@ export const getUserById = async (req, res) => {
 export const getUserResumes = async (req, res) => {
   try {
     const userId = req.userId;
-
-    //return user resumes
-    const resume = await Resume.find({ userId });
-    return res.status(200).json({ resume });
+    const resumes = await Resume.find({ userId });
+    return res.status(200).json({ resumes });
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }

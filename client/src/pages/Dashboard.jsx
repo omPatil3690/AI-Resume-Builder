@@ -19,7 +19,7 @@ import api from "../configs/api";
 import pdfToText from "react-pdftotext";
 
 const Dashboard = () => {
-  const { user, token } = useSelector((state) => state.auth);
+  const { user, token, loading } = useSelector((state) => state.auth);
 
   const colors = ["#9333ea", "#d97706", "#dc2626", "#0284c7", "#16a34a"];
 
@@ -34,13 +34,29 @@ const Dashboard = () => {
 
   const navigate = useNavigate();
 
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-gray-500">Loading dashboard...</p>
+      </div>
+    );
+  }
+
+  if (!token) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-red-500">Unauthorized</p>
+      </div>
+    );
+  }
+
   const createResume = async (event) => {
     try {
       event.preventDefault();
       const { data } = await api.post(
         "/api/resumes/create",
         { title },
-        { headers: { Authorisation: token } },
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       setAllResumes([...allResumes, data.resume]);
       setTitle("");
@@ -59,7 +75,7 @@ const Dashboard = () => {
       const { data } = await api.post(
         "/api/ai/upload-resume",
         { title, resumeText },
-        { headers: { Authorization: token } },
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       setTitle("");
       setResume(null);
@@ -79,7 +95,7 @@ const Dashboard = () => {
         { resumeId: editResumeId, resumeData: { title } },
         {
           headers: {
-            Authorisation: token,
+            Authorization: token,
           },
         },
       );
@@ -107,7 +123,7 @@ const Dashboard = () => {
           { title, resumeText },
           {
             headers: {
-              Authorisation: token,
+              Authorization: token,
             },
           },
         );
@@ -124,7 +140,7 @@ const Dashboard = () => {
   const loadAllResumes = async () => {
     try {
       const { data } = await api.get("/api/users/resumes", {
-        headers: { Authorization: token },
+        headers: { Authorization: `Bearer ${token}` },
       });
       setAllResumes(data.resumes);
     } catch (error) {
@@ -133,8 +149,10 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    loadAllResumes();
-  }, []);
+    if (token) {
+      loadAllResumes();
+    }
+  }, [token]);
 
   return (
     <div>

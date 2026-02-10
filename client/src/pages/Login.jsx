@@ -1,12 +1,14 @@
 import { Mail, User2Icon, Lock } from "lucide-react";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { login } from "../app/features/authSlice";
+import { login, setLoading } from "../app/features/authSlice";
 import toast from "react-hot-toast";
 import api from "../configs/api";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const query = new URLSearchParams(window.location.search);
   const urlState = query.get("state");
@@ -22,11 +24,16 @@ const Login = () => {
     e.preventDefault();
     try {
       const { data } = await api.post(`/api/users/${state}`, formData);
-      dispatch(login(data));
+
+      dispatch(login({ token: data.token, user: data.user }));
+      dispatch(setLoading(false));
+
       localStorage.setItem("token", data.token);
       toast.success(data.message);
+
+      navigate("/app", { replace: true });
     } catch (error) {
-      toast(error?.response?.data?.message || error.message);
+      toast.error(error?.response?.data?.message || error.message);
     }
   };
 

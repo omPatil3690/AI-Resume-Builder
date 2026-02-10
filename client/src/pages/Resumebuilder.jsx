@@ -49,7 +49,7 @@ const ResumeBuilder = () => {
     try {
       const { data } = await api.get("/api/resumes/get/" + resumeId, {
         headers: {
-          Authorisation: token,
+          Authorization: token,
         },
       });
       if (data.resume) {
@@ -89,7 +89,7 @@ const ResumeBuilder = () => {
       );
 
       const { data } = await api.put("/api/resumes/update", formData, {
-        headers: { Authorisation: token },
+        headers: { Authorization: token },
       });
 
       setResumeData({ ...resumeData, public: !resumeData.public });
@@ -134,7 +134,7 @@ const ResumeBuilder = () => {
         formData.append("image", resumeData.personal_info.image);
 
       const { data } = await api.put("/api/resumes/update", formData, {
-        headers: { Authorisation: token },
+        headers: { Authorization: token },
       });
 
       setResumeData(data.resume);
