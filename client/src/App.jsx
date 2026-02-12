@@ -48,7 +48,7 @@ const App = () => {
   return (
     <>
       <Toaster
-        position="top-right"
+        position="bottom-center"
         toastOptions={{
           style: {
             borderRadius: "12px",

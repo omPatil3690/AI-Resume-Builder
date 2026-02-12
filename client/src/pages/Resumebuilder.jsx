@@ -154,7 +154,6 @@ const ResumeBuilder = () => {
         ...data.resume,
         project: data.resume.project || data.resume.projects || [],
       }));
-      toast.success(data.message);
     } catch (error) {
       console.error("Error saving resume:", error);
       throw error;
