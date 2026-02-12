@@ -26,6 +26,7 @@ import EducationForm from "../components/EducationForm";
 import ProjectForm from "../components/ProjectForm";
 import SkillsForm from "../components/SkillsForm";
 import { useSelector } from "react-redux";
+import api from "../configs/api";
 
 const ResumeBuilder = () => {
   const { resumeId } = useParams();
@@ -45,12 +46,10 @@ const ResumeBuilder = () => {
     public: false,
   });
 
-  const loadExistingResume = async () => {
+  const loadExistingResume = useCallback(async () => {
     try {
       const { data } = await api.get("/api/resumes/get/" + resumeId, {
-        headers: {
-          Authorization: token,
-        },
+        headers: { Authorization: token },
       });
       if (data.resume) {
         setResumeData(data.resume);
@@ -59,7 +58,7 @@ const ResumeBuilder = () => {
     } catch (error) {
       console.log(error.message);
     }
-  };
+  }, [resumeId, token]);
 
   const [activeSectionIndex, setActiveSectionIndex] = useState(0);
   const [removeBackground, setRemoveBackground] = useState(false);
@@ -77,7 +76,7 @@ const ResumeBuilder = () => {
   useEffect(() => {
     console.log("useEffect triggered with resumeId:", resumeId);
     loadExistingResume();
-  }, [resumeId, loadExistingResume]);
+  }, [loadExistingResume]);
 
   const changeResumeVisibility = async () => {
     try {
@@ -118,6 +117,7 @@ const ResumeBuilder = () => {
 
   const saveResume = async () => {
     try {
+      console.log("SAVE FUNCTION CALLED");
       let updatedResumeData = structuredClone(resumeData);
 
       //remove image from updatedResumeData
@@ -297,7 +297,11 @@ const ResumeBuilder = () => {
               </div>
               <button
                 onClick={() => {
-                  toast.promise(saveResume, { loading: "Saving..." });
+                  toast.promise(saveResume(), {
+                    loading: "Saving...",
+                    success: "Saved successfully",
+                    error: "Failed to save",
+                  });
                 }}
                 className="bg-gradient-to-br from-green-100 to-green-200 ring-green-300 text-green-600 ring hover:ring-green-400 transition-all rounded-md px-6 py-2 mt-6 text-sm"
               >
