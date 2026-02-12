@@ -1,16 +1,32 @@
-import React from 'react'
+import React from "react";
+import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
-const CallToAction = ()=>{
-    return (
-        <div id="cta" className='border-y border-dashed border-slate-200 w-full max-w-5xl mx-auto px-10 sm:px-16 mt-28'>
-            <div className="flex flex-col md:flex-row text-center md:text-left items-center justify-between gap-8 px-3 md:px-10 border-x border-dashed border-slate-200 py-16 sm:py-20 -mt-10 -mb-10 w-full">
-                <p className="text-xl font-medium max-w-md text-slate-800">Build a Professional Resume That Helps You Stand Out and Get Hired</p>
-                <a href="/app" className="flex items-center gap-2 rounded py-3 px-8 bg-orange-600 hover:bg-orange-700 transition text-white">
-                    <span>Get Started</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="size-4.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                </a>
-            </div>
+const CallToAction = () => {
+  return (
+    <section id="cta" className="scroll-mt-20 px-4 pb-6 pt-16 sm:pt-20">
+      <div className="mx-auto max-w-6xl rounded-3xl border border-slate-200/80 bg-gradient-to-r from-cyan-50 via-white to-emerald-50 p-8 shadow-[0_20px_45px_-30px_rgba(15,23,42,0.45)] sm:p-12">
+        <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-700">
+              Ready to Build
+            </p>
+            <h3 className="mt-2 max-w-xl text-2xl font-semibold text-slate-900 sm:text-3xl">
+              Build a standout resume in minutes and apply with confidence.
+            </h3>
+          </div>
+
+          <Link
+            to="/app"
+            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 px-7 py-3 text-sm font-semibold text-white shadow-[0_12px_22px_-12px_rgba(6,182,212,0.8)] transition hover:-translate-y-0.5"
+          >
+            Open Builder
+            <ArrowRight className="size-4" />
+          </Link>
         </div>
-    )
-}
+      </div>
+    </section>
+  );
+};
+
 export default CallToAction;

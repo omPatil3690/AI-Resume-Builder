@@ -15,7 +15,7 @@ const ProfessionalSummaryForm = ({ data, onChange, setResumeData }) => {
       const response = await api.post(
         "/api/ai/enhance-pro-sum",
         { userContent: prompt },
-        { headers: { Authorization: token } },
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       setResumeData((prev) => ({
         ...prev,

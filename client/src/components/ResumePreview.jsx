@@ -20,10 +20,10 @@ const ResumePreview = ({ data, template, accentColor, classes = '' }) => {
     }
 
     return (
-        <div className="w-full bg-gray-100">
+        <div className="w-full bg-gradient-to-b from-slate-100 to-slate-200/70 p-2 sm:p-3">
             <div
                 id="resume-preview"
-                className={'border border-gray-200 print:shadow-none print:border-none ' + classes}>
+                className={'overflow-hidden rounded-xl border border-slate-200 shadow-[0_18px_45px_-28px_rgba(15,23,42,0.55)] print:shadow-none print:border-none ' + classes}>
                 {renderTemplate()}
             </div>
             <style jsx>
