@@ -9,6 +9,7 @@ import {
   Sparkles,
   X,
 } from "lucide-react";
+import logo from "../../assets/logo.svg";
 
 const Hero = () => {
   const { user } = useSelector((state) => state.auth);
@@ -25,7 +26,7 @@ const Hero = () => {
       <nav className="sticky top-0 z-30 border-b border-slate-200/70 bg-white/70 backdrop-blur">
         <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-3.5">
           <Link to="/">
-            <img src="/logo2.svg" alt="logo" className="h-10 w-auto" />
+            <img src={logo} alt="logo" className="h-10 w-auto" />
           </Link>
 
           <div className="hidden items-center gap-8 text-sm text-slate-700 md:flex">
@@ -80,7 +81,7 @@ const Hero = () => {
           }`}
         >
           <div className="mb-8 flex items-center justify-between">
-            <img src="/logo.svg" alt="logo" className="h-8 w-auto" />
+            <img src={logo} alt="logo" className="h-8 w-auto" />
             <button
               onClick={() => setMenuOpen(false)}
               className="rounded-lg border border-slate-200 p-1.5 text-slate-600"

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../app/features/authSlice";
 import { HomeIcon, LogOutIcon } from "lucide-react";
+import logo from "../assets/logo.svg";
 
 const Navbar = () => {
   const { user } = useSelector((state) => state.auth);
@@ -18,7 +19,7 @@ const Navbar = () => {
     <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/70 backdrop-blur">
       <nav className="flex items-center justify-between max-w-7xl mx-auto px-4 py-3 text-slate-800">
         <Link to="/" className="flex items-center gap-3">
-          <img src="/logo2.svg" alt="logo" className="h-10 w-auto" />
+          <img src={logo} alt="logo" className="h-10 w-auto" />
           <span className="hidden sm:block text-sm font-semibold tracking-wide text-slate-700">
             Resume Studio
           </span>
